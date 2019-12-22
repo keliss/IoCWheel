@@ -8,7 +8,7 @@ public class BeanDescriptorFactory {
         String beanName = c.getAnnotation(Component.class).name();
         BeanDescriptor descriptor = new BeanDescriptor(beanName, c);
         if (beanName.isEmpty()) {
-            descriptor.setBeanName(c.getName());
+            descriptor.setBeanName(c.getSimpleName());
         }
         return descriptor;
     }
