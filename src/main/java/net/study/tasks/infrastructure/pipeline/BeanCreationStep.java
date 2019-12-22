@@ -1,6 +1,6 @@
-package infrastructure.pipeline;
+package net.study.tasks.infrastructure.pipeline;
 
-import infrastructure.BeanFactory;
+import net.study.tasks.infrastructure.BeanFactory;
 
 public class BeanCreationStep implements PipelineStep {
 

@@ -1,9 +1,4 @@
-package infrastructure;
-
-import infrastructure.pipeline.AnnotationScanStep;
-import infrastructure.pipeline.BeanCreationStep;
-import infrastructure.pipeline.BeanInjectionStep;
-import infrastructure.pipeline.PipelineStep;
+package net.study.tasks.infrastructure.pipeline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +7,6 @@ public class ApplicationPipeline {
 
     private List<PipelineStep> steps;
 
-    // entry point for an application that dares to use this framework
     public void launch() {
         createPipeline();
         steps.forEach(PipelineStep::apply);

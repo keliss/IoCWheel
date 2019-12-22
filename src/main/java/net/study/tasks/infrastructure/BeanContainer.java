@@ -1,4 +1,4 @@
-package infrastructure;
+package net.study.tasks.infrastructure;
 
 import java.util.HashMap;
 import java.util.Map;

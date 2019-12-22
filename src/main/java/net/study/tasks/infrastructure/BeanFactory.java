@@ -1,4 +1,4 @@
-package infrastructure;
+package net.study.tasks.infrastructure;
 
 public class BeanFactory {
 

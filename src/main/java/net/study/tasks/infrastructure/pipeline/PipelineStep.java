@@ -1,4 +1,4 @@
-package infrastructure.pipeline;
+package net.study.tasks.infrastructure.pipeline;
 
 public interface PipelineStep {
 
