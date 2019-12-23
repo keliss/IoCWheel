@@ -6,6 +6,7 @@ public abstract class MusicalInstrument {
     private String type;
     private int cost;
     private int state;
+    private boolean isTuned;
 
     public abstract void play();
 
@@ -41,5 +42,13 @@ public abstract class MusicalInstrument {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public boolean isTuned() {
+        return isTuned;
+    }
+
+    public void setTuned(boolean tuned) {
+        isTuned = tuned;
     }
 }

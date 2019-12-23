@@ -3,9 +3,13 @@ package net.study.tasks;
 import net.study.tasks.annotation.Component;
 import net.study.tasks.annotation.Inject;
 import net.study.tasks.instruments.MusicalInstrument;
+import net.study.tasks.instruments.Tuner;
 
 @Component
 public class Musician {
+
+    @Inject
+    private Tuner tuner;
 
     private MusicalInstrument instrument;
     private int salary;
@@ -16,6 +20,7 @@ public class Musician {
     }
 
     public void perform() {
+        tuner.tune(instrument);
         instrument.play();
     }
 

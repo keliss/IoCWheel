@@ -1,13 +1,9 @@
 package net.study.tasks.instruments;
 
 import net.study.tasks.annotation.Component;
-import net.study.tasks.annotation.Inject;
 
 @Component
 public class Guitar extends MusicalInstrument {
-
-    @Inject
-    private Mediator mediator;
 
     @Override
     public void play() {
