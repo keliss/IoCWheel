@@ -8,16 +8,19 @@ import net.study.tasks.infrastructure.Runner;
 @Component
 public class DemoApplication implements Runner {
 
-    @Inject
-    private CalculationService service;
+    private Musician musician;
 
     public static void main(String[] args) {
         ApplicationEntryPoint.launch(DemoApplication.class);
+    }
 
+    @Inject
+    public void hireMusician(Musician musician) {
+        this.musician = musician;
     }
 
     @Override
     public void run() {
-        System.out.println(service.calculate(5, 4));
+        musician.perform();
     }
 }

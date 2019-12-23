@@ -1,7 +1,12 @@
 package net.study.tasks.infrastructure;
 
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BeanContainer {
 
@@ -27,7 +32,18 @@ public class BeanContainer {
         beans.remove(descriptor);
     }
 
-    public void getBean(BeanDescriptor descriptor) {
-        beans.get(descriptor);
+    public Object getBean(BeanDescriptor descriptor) {
+        return beans.get(descriptor);
+    }
+
+    public List<Map.Entry<BeanDescriptor, Object>> getBeansByClass(Class<?> beanClass) {
+        return beans.entrySet().stream()
+                .filter(e ->
+                    e.getKey().getBeanClass().equals(beanClass) ||
+                            new Reflections(ApplicationContext.getBasePackageScanClass(), new SubTypesScanner())
+                                    .getSubTypesOf(beanClass)
+                                    .contains(e.getKey().getBeanClass())
+                )
+                .collect(Collectors.toList());
     }
 }

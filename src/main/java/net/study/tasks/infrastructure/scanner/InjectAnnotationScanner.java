@@ -3,27 +3,37 @@ package net.study.tasks.infrastructure.scanner;
 import net.study.tasks.annotation.Inject;
 import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.BeanDescriptor;
-import org.javatuples.Quartet;
+import org.javatuples.Triplet;
 import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class InjectAnnotationScanner implements AnnotationScanner<Set<Quartet<BeanDescriptor, Set<Constructor>, Set<Field>, Set<Method>>>> {
+public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>>> {
 
     @Override
-    public Set<Quartet<BeanDescriptor, Set<Constructor>, Set<Field>, Set<Method>>> scan() {
-        return ApplicationContext.getBeanDescriptors().stream().map(this::extractInjectionPoints).collect(Collectors.toSet());
-    }
-
-    private Quartet<BeanDescriptor, Set<Constructor>, Set<Field>, Set<Method>> extractInjectionPoints(BeanDescriptor descriptor) {
-        Reflections reflections = new Reflections(descriptor.getBeanClass());
-        Set<Constructor> constructors = reflections.getConstructorsAnnotatedWith(Inject.class);
-        Set<Field> fields = reflections.getFieldsAnnotatedWith(Inject.class);
-        Set<Method> methods = reflections.getMethodsAnnotatedWith(Inject.class);
-        return new Quartet<>(descriptor, constructors, fields, methods);
+    public Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> scan() {
+        HashMap<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> map = new HashMap<>();
+        ApplicationContext.getBeanDescriptors().forEach(d -> {
+            Reflections reflections = new Reflections(
+                    new ConfigurationBuilder()
+                            .setScanners(new MethodAnnotationsScanner(), new FieldAnnotationsScanner())
+                            .filterInputsBy(i -> i.contains(d.getBeanClass().getSimpleName()))
+                            .setUrls(ClasspathHelper.forClass(d.getBeanClass()))
+            );
+            Set<Constructor> constructors = reflections.getConstructorsAnnotatedWith(Inject.class);
+            Set<Field> fields = reflections.getFieldsAnnotatedWith(Inject.class);
+            Set<Method> methods = reflections.getMethodsAnnotatedWith(Inject.class);
+            map.put(d, new Triplet<>(constructors, fields, methods));
+        });
+        return map;
     }
 }

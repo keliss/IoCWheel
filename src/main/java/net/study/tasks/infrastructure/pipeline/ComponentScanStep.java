@@ -8,15 +8,15 @@ import net.study.tasks.infrastructure.scanner.ComponentAnnotationScanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class AnnotationScanStep implements PipelineStep {
+public class ComponentScanStep implements PipelineStep {
 
     private AnnotationScanner<Set<Class<?>>> annotationScanner;
 
-    public AnnotationScanStep(AnnotationScanner<Set<Class<?>>> annotationScanner) {
+    public ComponentScanStep(AnnotationScanner<Set<Class<?>>> annotationScanner) {
         this.annotationScanner = annotationScanner;
     }
 
-    public AnnotationScanStep() {
+    public ComponentScanStep() {
         this(new ComponentAnnotationScanner());
     }
 

@@ -1,16 +1,11 @@
 package net.study.tasks.infrastructure;
 
-import java.lang.annotation.ElementType;
-import java.util.Map;
+import java.util.Objects;
 
 public class BeanDescriptor {
 
     private String beanName;
     private Class<?> beanClass;
-    private Map<Object, ElementType> injectionPoints;
-
-    public BeanDescriptor() {
-    }
 
     public BeanDescriptor(String beanName, Class<?> beanClass) {
         this.beanName = beanName;
@@ -33,11 +28,17 @@ public class BeanDescriptor {
         this.beanClass = beanClass;
     }
 
-    public Map<Object, ElementType> getInjectionPoints() {
-        return injectionPoints;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BeanDescriptor that = (BeanDescriptor) o;
+        return Objects.equals(beanName, that.beanName) &&
+                Objects.equals(beanClass, that.beanClass);
     }
 
-    public void setInjectionPoints(Map<Object, ElementType> injectionPoints) {
-        this.injectionPoints = injectionPoints;
+    @Override
+    public int hashCode() {
+        return Objects.hash(beanName, beanClass);
     }
 }

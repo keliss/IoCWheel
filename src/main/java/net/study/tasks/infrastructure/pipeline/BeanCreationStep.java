@@ -4,7 +4,17 @@ import net.study.tasks.infrastructure.BeanFactory;
 
 public class BeanCreationStep implements PipelineStep {
 
+    private BeanFactory beanFactory;
+
+    public BeanCreationStep(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
+
+    public BeanCreationStep() {
+        this(new BeanFactory());
+    }
+
     public void apply() {
-        new BeanFactory().createBeans();
+        beanFactory.createBeans();
     }
 }
