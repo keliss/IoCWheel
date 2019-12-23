@@ -58,7 +58,12 @@ public class BeanFactory {
                         throw new RuntimeException("Multiple beans of the same class aren't supported");
                     }
                     createBeanWithDependencies(descriptorsForParameters.get(0));
-                    dependencies.add(container.getBeansByClass(p).get(0).getValue());
+                    try {
+                        dependencies.add(container.getBeansByClass(p).get(0).getValue());
+                    } catch (IndexOutOfBoundsException e) {
+                        throw new RuntimeException("Unmet dependency in constructor of class " + constructorWithDependencies.getDeclaringClass() +
+                                ". Couldn't find bean for parameter " + p.getName());
+                    }
                 } else {
                     dependencies.add(beans.get(0).getValue());
                 }
@@ -82,7 +87,7 @@ public class BeanFactory {
             try {
                 f.set(container.getBean(descriptor), container.getBeansByClass(f.getType()).get(0).getValue());
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Unmet dependency in field " + f.getName() + " in class " + f.getDeclaringClass());
             }
         });
     }
@@ -100,7 +105,7 @@ public class BeanFactory {
                 Stream.of(s.getParameterTypes()).forEach(p -> dependencies.add(container.getBeansByClass(p).get(0).getValue()));
                 s.invoke(container.getBean(descriptor), dependencies.toArray());
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Unmet dependency in setter " + s.getName() + " in class " + s.getDeclaringClass());
             }
         });
     }
