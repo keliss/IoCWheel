@@ -1,7 +1,7 @@
 package net.study.tasks.infrastructure.pipeline;
 
 import net.study.tasks.infrastructure.ApplicationContext;
-import net.study.tasks.infrastructure.BeanDescriptorFactory;
+import net.study.tasks.infrastructure.descriptor.BeanDescriptorFactory;
 import net.study.tasks.infrastructure.scanner.AnnotationScanner;
 import net.study.tasks.infrastructure.scanner.ComponentAnnotationScanner;
 

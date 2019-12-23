@@ -1,7 +1,7 @@
 package net.study.tasks.infrastructure.pipeline;
 
 import net.study.tasks.infrastructure.ApplicationContext;
-import net.study.tasks.infrastructure.BeanDescriptor;
+import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 import net.study.tasks.infrastructure.scanner.AnnotationScanner;
 import net.study.tasks.infrastructure.scanner.InjectAnnotationScanner;
 import org.javatuples.Triplet;

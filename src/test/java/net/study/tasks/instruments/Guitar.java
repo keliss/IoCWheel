@@ -12,9 +12,9 @@ public class Guitar extends MusicalInstrument {
     @Override
     public void play() {
         System.out.println();
-        System.out.println("<-------------------------------------------------------------------------->");
-        System.out.println("|*a joyful guitar melody fills up the air, telling that DI works just fine*|");
-        System.out.println("<-------------------------------------------------------------------------->");
+        System.out.println("<---------------------------------------------------------------------------->");
+        System.out.println("|* a joyful guitar melody fills up the air, telling that DI works just fine *|");
+        System.out.println("<---------------------------------------------------------------------------->");
     }
 
     @Override

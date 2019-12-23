@@ -1,4 +1,4 @@
-package net.study.tasks.infrastructure;
+package net.study.tasks.infrastructure.descriptor;
 
 import java.util.Objects;
 

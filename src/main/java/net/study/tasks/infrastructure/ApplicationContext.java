@@ -1,5 +1,7 @@
 package net.study.tasks.infrastructure;
 
+import net.study.tasks.infrastructure.container.BeanContainer;
+import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 import org.javatuples.Triplet;
 
 import java.lang.reflect.Constructor;

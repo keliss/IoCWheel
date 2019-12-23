@@ -2,7 +2,7 @@ package net.study.tasks.infrastructure.scanner;
 
 import net.study.tasks.annotation.Inject;
 import net.study.tasks.infrastructure.ApplicationContext;
-import net.study.tasks.infrastructure.BeanDescriptor;
+import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 import org.javatuples.Triplet;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;

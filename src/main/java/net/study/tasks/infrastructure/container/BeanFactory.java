@@ -1,5 +1,7 @@
-package net.study.tasks.infrastructure;
+package net.study.tasks.infrastructure.container;
 
+import net.study.tasks.infrastructure.ApplicationContext;
+import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 import org.javatuples.Triplet;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
