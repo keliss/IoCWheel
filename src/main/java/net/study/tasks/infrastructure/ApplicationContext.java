@@ -2,11 +2,7 @@ package net.study.tasks.infrastructure;
 
 import net.study.tasks.infrastructure.container.BeanContainer;
 import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
-import org.javatuples.Triplet;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -15,7 +11,7 @@ public class ApplicationContext {
 
     private static Set<BeanDescriptor> beanDescriptors;
     private static Class<?> basePackageScanClass;
-    private static Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> injectionPoints;
+    private static Map<BeanDescriptor, InjectionPointsHolder> injectionPoints;
 
     private ApplicationContext() {
         beanDescriptors = new HashSet<>();
@@ -49,11 +45,11 @@ public class ApplicationContext {
         ApplicationContext.beanDescriptors = beanDescriptors;
     }
 
-    public Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> getInjectionPoints() {
+    public Map<BeanDescriptor, InjectionPointsHolder> getInjectionPoints() {
         return injectionPoints;
     }
 
-    public void setInjectionPoints(Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> injectionPoints) {
+    public void setInjectionPoints(Map<BeanDescriptor, InjectionPointsHolder> injectionPoints) {
         ApplicationContext.injectionPoints = injectionPoints;
     }
 }

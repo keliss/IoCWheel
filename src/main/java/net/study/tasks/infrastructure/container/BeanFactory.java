@@ -2,7 +2,7 @@ package net.study.tasks.infrastructure.container;
 
 import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
-import org.javatuples.Triplet;
+import net.study.tasks.infrastructure.InjectionPointsHolder;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,10 +21,10 @@ public class BeanFactory {
 
     public void createBeans(ApplicationContext context) {
         this.context = context;
-        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : context.getInjectionPoints().entrySet()) {
+        for (Map.Entry<BeanDescriptor, InjectionPointsHolder> entry : context.getInjectionPoints().entrySet()) {
             createBeanWithDependencies(entry.getKey());
         }
-        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : context.getInjectionPoints().entrySet()) {
+        for (Map.Entry<BeanDescriptor, InjectionPointsHolder> entry : context.getInjectionPoints().entrySet()) {
             setFields(entry.getKey());
             setFieldsThroughSetters(entry.getKey());
         }
@@ -33,7 +32,7 @@ public class BeanFactory {
 
     private void createBeanWithDependencies(BeanDescriptor descriptor) {
         BeanContainer container = context.getBeanContainer();
-        List<Constructor> annotatedConstructors = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue0());
+        List<Constructor> annotatedConstructors = new ArrayList<>(context.getInjectionPoints().get(descriptor).getConstructors());
         if (annotatedConstructors.size() > 1) {
             throw new IllegalStateException("Component cannot have more than one constructor annotated with @Inject");
         }
@@ -81,7 +80,7 @@ public class BeanFactory {
 
     private void setFields(BeanDescriptor descriptor) {
         BeanContainer container = context.getBeanContainer();
-        List<Field> annotatedFields = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue1());
+        List<Field> annotatedFields = new ArrayList<>(context.getInjectionPoints().get(descriptor).getFields());
         if (annotatedFields.isEmpty()) {
             return;
         }
@@ -97,7 +96,7 @@ public class BeanFactory {
 
     private void setFieldsThroughSetters(BeanDescriptor descriptor) {
         BeanContainer container = context.getBeanContainer();
-        List<Method> annotatedSetters = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue2());
+        List<Method> annotatedSetters = new ArrayList<>(context.getInjectionPoints().get(descriptor).getMethods());
         if (annotatedSetters.isEmpty()) {
             return;
         }
