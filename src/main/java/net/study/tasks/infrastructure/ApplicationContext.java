@@ -29,31 +29,31 @@ public class ApplicationContext {
         return ContextHolder.INSTANCE;
     }
 
-    public static Class<?> getBasePackageScanClass() {
+    public Class<?> getBasePackageScanClass() {
         return basePackageScanClass;
     }
 
-    public static void setBasePackageScanClass(Class<?> basePackageScanClass) {
+    public void setBasePackageScanClass(Class<?> basePackageScanClass) {
         ApplicationContext.basePackageScanClass = basePackageScanClass;
     }
 
-    public static BeanContainer getBeanContainer() {
+    public BeanContainer getBeanContainer() {
         return BeanContainer.getInstance();
     }
 
-    public static Set<BeanDescriptor> getBeanDescriptors() {
+    public Set<BeanDescriptor> getBeanDescriptors() {
         return beanDescriptors;
     }
 
-    public static void setBeanDescriptors(Set<BeanDescriptor> beanDescriptors) {
+    public void setBeanDescriptors(Set<BeanDescriptor> beanDescriptors) {
         ApplicationContext.beanDescriptors = beanDescriptors;
     }
 
-    public static Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> getInjectionPoints() {
+    public Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> getInjectionPoints() {
         return injectionPoints;
     }
 
-    public static void setInjectionPoints(Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> injectionPoints) {
+    public void setInjectionPoints(Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> injectionPoints) {
         ApplicationContext.injectionPoints = injectionPoints;
     }
 }

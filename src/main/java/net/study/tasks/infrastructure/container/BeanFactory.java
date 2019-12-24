@@ -18,19 +18,22 @@ import java.util.stream.Stream;
 
 public class BeanFactory {
 
-    public void createBeans() {
-        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : ApplicationContext.getInjectionPoints().entrySet()) {
+    private ApplicationContext context;
+
+    public void createBeans(ApplicationContext context) {
+        this.context = context;
+        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : context.getInjectionPoints().entrySet()) {
             createBeanWithDependencies(entry.getKey());
         }
-        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : ApplicationContext.getInjectionPoints().entrySet()) {
+        for (Map.Entry<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> entry : context.getInjectionPoints().entrySet()) {
             setFields(entry.getKey());
             setFieldsThroughSetters(entry.getKey());
         }
     }
 
     private void createBeanWithDependencies(BeanDescriptor descriptor) {
-        BeanContainer container = ApplicationContext.getBeanContainer();
-        List<Constructor> annotatedConstructors = new ArrayList<>(ApplicationContext.getInjectionPoints().get(descriptor).getValue0());
+        BeanContainer container = context.getBeanContainer();
+        List<Constructor> annotatedConstructors = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue0());
         if (annotatedConstructors.size() > 1) {
             throw new IllegalStateException("Component cannot have more than one constructor annotated with @Inject");
         }
@@ -48,11 +51,11 @@ public class BeanFactory {
             Stream.of(constructorWithDependencies.getParameterTypes()).forEach(p -> {
                 List<Map.Entry<BeanDescriptor, Object>> beans = container.getBeansByClass(p);
                 if (beans.isEmpty()) {
-                    List<BeanDescriptor> descriptorsForParameters = ApplicationContext.getBeanDescriptors().stream()
+                    List<BeanDescriptor> descriptorsForParameters = context.getBeanDescriptors().stream()
                             .filter(d -> d.getBeanClass().equals(p))
                             .collect(Collectors.toList());
-                    ApplicationContext.getBeanDescriptors().stream()
-                            .filter(d -> new Reflections(ApplicationContext.getBasePackageScanClass(), new SubTypesScanner()).getSubTypesOf(p).contains(d.getBeanClass()))
+                    context.getBeanDescriptors().stream()
+                            .filter(d -> new Reflections(context.getBasePackageScanClass(), new SubTypesScanner()).getSubTypesOf(p).contains(d.getBeanClass()))
                             .forEach(descriptorsForParameters::add);
                     if (descriptorsForParameters.size() > 1) {
                         throw new RuntimeException("Multiple beans of the same class aren't supported");
@@ -77,8 +80,8 @@ public class BeanFactory {
     }
 
     private void setFields(BeanDescriptor descriptor) {
-        BeanContainer container = ApplicationContext.getBeanContainer();
-        List<Field> annotatedFields = new ArrayList<>(ApplicationContext.getInjectionPoints().get(descriptor).getValue1());
+        BeanContainer container = context.getBeanContainer();
+        List<Field> annotatedFields = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue1());
         if (annotatedFields.isEmpty()) {
             return;
         }
@@ -93,8 +96,8 @@ public class BeanFactory {
     }
 
     private void setFieldsThroughSetters(BeanDescriptor descriptor) {
-        BeanContainer container = ApplicationContext.getBeanContainer();
-        List<Method> annotatedSetters = new ArrayList<>(ApplicationContext.getInjectionPoints().get(descriptor).getValue2());
+        BeanContainer container = context.getBeanContainer();
+        List<Method> annotatedSetters = new ArrayList<>(context.getInjectionPoints().get(descriptor).getValue2());
         if (annotatedSetters.isEmpty()) {
             return;
         }

@@ -42,7 +42,7 @@ public class BeanContainer {
         return beans.entrySet().stream()
                 .filter(e ->
                     e.getKey().getBeanClass().equals(beanClass) ||
-                            new Reflections(ApplicationContext.getBasePackageScanClass(), new SubTypesScanner())
+                            new Reflections(ApplicationContext.getInstance().getBasePackageScanClass(), new SubTypesScanner())
                                     .getSubTypesOf(beanClass)
                                     .contains(e.getKey().getBeanClass())
                 )

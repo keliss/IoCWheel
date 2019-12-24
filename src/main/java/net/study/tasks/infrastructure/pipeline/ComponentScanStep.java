@@ -21,9 +21,9 @@ public class ComponentScanStep implements PipelineStep {
     }
 
     @Override
-    public void apply() {
-        Set<Class<?>> classes = annotationScanner.scan();
-        ApplicationContext.setBeanDescriptors(classes.stream()
+    public void apply(ApplicationContext context) {
+        Set<Class<?>> classes = annotationScanner.scan(context);
+        context.setBeanDescriptors(classes.stream()
                 .map(BeanDescriptorFactory::createFromClass)
                 .collect(Collectors.toSet()));
     }

@@ -1,5 +1,7 @@
 package net.study.tasks.infrastructure.pipeline;
 
+import net.study.tasks.infrastructure.ApplicationContext;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class ApplicationPipeline {
 
     public void launch() {
         createPipeline();
-        steps.forEach(PipelineStep::apply);
+        steps.forEach(s -> s.apply(ApplicationContext.getInstance()));
     }
 
     private void createPipeline() {

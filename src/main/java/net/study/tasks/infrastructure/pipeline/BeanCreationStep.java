@@ -1,5 +1,6 @@
 package net.study.tasks.infrastructure.pipeline;
 
+import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.container.BeanFactory;
 
 public class BeanCreationStep implements PipelineStep {
@@ -14,7 +15,8 @@ public class BeanCreationStep implements PipelineStep {
         this(new BeanFactory());
     }
 
-    public void apply() {
-        beanFactory.createBeans();
+    @Override
+    public void apply(ApplicationContext context) {
+        beanFactory.createBeans(context);
     }
 }

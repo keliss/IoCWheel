@@ -24,7 +24,8 @@ public class InjectionPointsScanStep implements PipelineStep {
         this(new InjectAnnotationScanner());
     }
 
-    public void apply() {
-        ApplicationContext.setInjectionPoints(annotationScanner.scan());
+    @Override
+    public void apply(ApplicationContext context) {
+        context.setInjectionPoints(annotationScanner.scan(context));
     }
 }

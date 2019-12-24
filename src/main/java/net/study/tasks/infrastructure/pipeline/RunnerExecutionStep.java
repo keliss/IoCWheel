@@ -10,14 +10,14 @@ import java.util.Set;
 public class RunnerExecutionStep implements PipelineStep {
 
     @Override
-    public void apply() {
-        Class<?> basePackageScanClass = ApplicationContext.getBasePackageScanClass();
+    public void apply(ApplicationContext context) {
+        Class<?> basePackageScanClass = context.getBasePackageScanClass();
         Set<Class<? extends Runner>> runnerClasses = new Reflections(basePackageScanClass).getSubTypesOf(Runner.class);
         runnerClasses.forEach(c -> {
             try {
                 Method runMethod = c.getMethod("run");
                 runMethod.setAccessible(true);
-                runMethod.invoke(ApplicationContext.getBeanContainer().getBeansByClass(c).get(0).getValue());
+                runMethod.invoke(context.getBeanContainer().getBeansByClass(c).get(0).getValue());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

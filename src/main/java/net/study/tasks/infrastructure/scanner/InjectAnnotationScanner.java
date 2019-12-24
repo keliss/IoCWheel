@@ -20,9 +20,9 @@ import java.util.Set;
 public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>>> {
 
     @Override
-    public Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> scan() {
+    public Map<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> scan(ApplicationContext context) {
         HashMap<BeanDescriptor, Triplet<Set<Constructor>, Set<Field>, Set<Method>>> map = new HashMap<>();
-        ApplicationContext.getBeanDescriptors().forEach(d -> {
+        context.getBeanDescriptors().forEach(d -> {
             Reflections reflections = new Reflections(
                     new ConfigurationBuilder()
                             .setScanners(new MethodAnnotationsScanner(), new FieldAnnotationsScanner())
