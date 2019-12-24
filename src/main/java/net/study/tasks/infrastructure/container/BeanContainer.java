@@ -40,12 +40,18 @@ public class BeanContainer {
 
     public List<Map.Entry<BeanDescriptor, Object>> getBeansByClass(Class<?> beanClass) {
         return beans.entrySet().stream()
-                .filter(e ->
-                    e.getKey().getBeanClass().equals(beanClass) ||
-                            new Reflections(ApplicationContext.getInstance().getBasePackageScanClass(), new SubTypesScanner())
-                                    .getSubTypesOf(beanClass)
-                                    .contains(e.getKey().getBeanClass())
-                )
+                .filter(e -> isSameClassOrSubtype(e.getKey(), beanClass) || isProxy(e.getKey(), beanClass))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isSameClassOrSubtype(BeanDescriptor descriptor, Class<?> beanClass) {
+        return descriptor.getBeanClass().equals(beanClass) ||
+                new Reflections(ApplicationContext.getInstance().getBasePackageScanClass(), new SubTypesScanner())
+                        .getSubTypesOf(beanClass)
+                        .contains(descriptor.getBeanClass());
+    }
+
+    private boolean isProxy(BeanDescriptor descriptor, Class<?> beanClass) {
+        return descriptor.isProxy() && descriptor.getBeanClass().getName().startsWith(beanClass.getName());
     }
 }

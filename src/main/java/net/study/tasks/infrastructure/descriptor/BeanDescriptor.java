@@ -6,10 +6,16 @@ public class BeanDescriptor {
 
     private String beanName;
     private Class<?> beanClass;
+    private boolean isLazy;
+    private boolean isProxy;
 
-    public BeanDescriptor(String beanName, Class<?> beanClass) {
+    public BeanDescriptor() {
+    }
+
+    public BeanDescriptor(String beanName, Class<?> beanClass, boolean isLazy) {
         this.beanName = beanName;
         this.beanClass = beanClass;
+        this.isLazy = isLazy;
     }
 
     public String getBeanName() {
@@ -26,6 +32,22 @@ public class BeanDescriptor {
 
     public void setBeanClass(Class<?> beanClass) {
         this.beanClass = beanClass;
+    }
+
+    public boolean isLazy() {
+        return isLazy;
+    }
+
+    public void setLazy(boolean lazy) {
+        isLazy = lazy;
+    }
+
+    public boolean isProxy() {
+        return isProxy;
+    }
+
+    public void setProxy(boolean proxy) {
+        isProxy = proxy;
     }
 
     @Override

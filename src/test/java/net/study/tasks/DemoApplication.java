@@ -7,6 +7,7 @@ import net.study.tasks.infrastructure.Runner;
 
 // This dumb application shows the features existing at the moment: injection into a field,
 // injection into a setter and injection into a constructor
+// Tuner also demonstrates lazy loading of beans
 
 @Component
 public class DemoApplication implements Runner {

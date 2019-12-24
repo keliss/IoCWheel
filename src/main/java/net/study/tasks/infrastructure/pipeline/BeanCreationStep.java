@@ -2,6 +2,7 @@ package net.study.tasks.infrastructure.pipeline;
 
 import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.container.BeanFactory;
+import net.study.tasks.infrastructure.container.LazyBeanAwareBeanCreator;
 
 public class BeanCreationStep implements PipelineStep {
 
@@ -12,7 +13,7 @@ public class BeanCreationStep implements PipelineStep {
     }
 
     public BeanCreationStep() {
-        this(new BeanFactory());
+        this.beanFactory = new BeanFactory(new LazyBeanAwareBeanCreator());
     }
 
     @Override
