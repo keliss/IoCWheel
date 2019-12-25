@@ -107,8 +107,7 @@ public class DefaultBeanCreator implements BeanCreator {
                 throw new RuntimeException("Unmet dependency in class " + dependantClass.getName() +
                         ". Couldn't find bean for parameter of type " + dependantClass.getName());
             }
-            createBeanWithDependencies(context, descriptorsForParameter.get(0));
-            return container.getBeansByClass(dependencyClass).get(0).getValue();
+            return createBeanWithDependencies(context, descriptorsForParameter.get(0));
         } else {
             return beans.get(0).getValue();
         }

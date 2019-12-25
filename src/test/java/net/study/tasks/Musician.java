@@ -20,6 +20,7 @@ public class Musician {
     }
 
     public void perform() {
+        System.out.println("Calling instance of Tuner...");
         tuner.tune(instrument);
         instrument.play();
     }

@@ -12,8 +12,13 @@ public class Tuner {
 
     @Inject
     public Tuner(SomeLazyBean someLazyBean) {
+        System.out.println("Lazy initialization started.");
         try {
-            Thread.sleep(5000);
+            for(int i = 5; i > 0; i--) {
+                System.out.println(i);
+                Thread.sleep(1000);
+            }
+            System.out.println("Initialization completed.");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
