@@ -24,7 +24,7 @@ public class LazyBeanAwareBeanCreator implements CalleeBeanCreator {
             enhancer.setSuperclass(descriptor.getBeanClass());
             enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
                 if (!descriptor.isLoaded() && Arrays.asList(descriptor.getBeanClass().getDeclaredMethods()).contains(method)) {
-                    callbackCreator.createBeanWithDependencies(context, descriptor);
+                    callback(context, descriptor);
                 }
                 return proxy.invokeSuper(obj, args);
             });
@@ -39,8 +39,8 @@ public class LazyBeanAwareBeanCreator implements CalleeBeanCreator {
     }
 
     @Override
-    public Object callback() {
-        return null;
+    public Object callback(ApplicationContext context, BeanDescriptor descriptor) {
+        return callbackCreator.createBeanWithDependencies(context, descriptor);
     }
 
     @Override
