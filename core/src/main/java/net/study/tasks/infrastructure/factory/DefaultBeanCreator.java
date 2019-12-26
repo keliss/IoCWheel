@@ -38,7 +38,7 @@ public class DefaultBeanCreator implements CustomizableBeanCreator {
         if (createdBean != null) {
             return createdBean;
         }
-        createdBean = customize(context, descriptor);
+        createdBean = createCustomBean(context, descriptor);
         if (createdBean != null) {
             return createdBean;
         }
@@ -133,7 +133,7 @@ public class DefaultBeanCreator implements CustomizableBeanCreator {
     }
 
     @Override
-    public Object customize(ApplicationContext context, BeanDescriptor descriptor) {
+    public Object createCustomBean(ApplicationContext context, BeanDescriptor descriptor) {
         Object customizedBean = null;
         for (BeanCreator creator : customizers) {
             customizedBean = creator.createBeanWithDependencies(context, descriptor);

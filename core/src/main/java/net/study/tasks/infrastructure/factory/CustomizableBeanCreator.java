@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CustomizableBeanCreator extends BeanCreator {
 
-    Object customize(ApplicationContext context, BeanDescriptor descriptor);
+    Object createCustomBean(ApplicationContext context, BeanDescriptor descriptor);
 
     List<BeanCreator> getCustomizers();
 
