@@ -8,6 +8,7 @@ import org.reflections.scanners.SubTypesScanner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BeanContainer {
@@ -42,6 +43,12 @@ public class BeanContainer {
         return beans.entrySet().stream()
                 .filter(e -> isSameClassOrSubtype(e.getKey(), beanClass) || isProxy(e.getKey(), beanClass))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Map.Entry<BeanDescriptor, Object>> getProxyForClass(Class<?> beanClass) {
+        return beans.entrySet().stream()
+                .filter(e -> isProxy(e.getKey(), beanClass))
+                .findFirst();
     }
 
     private boolean isSameClassOrSubtype(BeanDescriptor descriptor, Class<?> beanClass) {

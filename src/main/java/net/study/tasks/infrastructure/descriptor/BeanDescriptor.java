@@ -8,6 +8,7 @@ public class BeanDescriptor {
     private Class<?> beanClass;
     private boolean isLazy;
     private boolean isProxy;
+    private boolean isLoaded;
 
     public BeanDescriptor() {
     }
@@ -48,6 +49,14 @@ public class BeanDescriptor {
 
     public void setProxy(boolean proxy) {
         isProxy = proxy;
+    }
+
+    public boolean isLoaded() {
+        return isLoaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        isLoaded = loaded;
     }
 
     @Override

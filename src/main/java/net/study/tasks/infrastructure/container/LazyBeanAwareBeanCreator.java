@@ -8,17 +8,23 @@ import net.study.tasks.infrastructure.descriptor.BeanDescriptorFactory;
 
 import java.util.Arrays;
 
-public class LazyBeanAwareBeanCreator extends DefaultBeanCreator {
+public class LazyBeanAwareBeanCreator implements CalleeBeanCreator {
+
+    private BeanCreator callbackCreator;
+
+    public LazyBeanAwareBeanCreator(BeanCreator callbackCreator) {
+        this.callbackCreator = callbackCreator;
+    }
 
     @Override
     public Object createBeanWithDependencies(ApplicationContext context, BeanDescriptor descriptor) {
-        if (descriptor.isLazy()) {
-            BeanContainer container = context.getBeanContainer();
+        BeanContainer container = context.getBeanContainer();
+        if (descriptor.isLazy() && container.getProxyForClass(descriptor.getBeanClass()).isEmpty()) {
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(descriptor.getBeanClass());
             enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
-                if (Arrays.asList(descriptor.getBeanClass().getDeclaredMethods()).contains(method)) {
-                    return super.createBeanWithDependencies(context, descriptor);
+                if (!descriptor.isLoaded() && Arrays.asList(descriptor.getBeanClass().getDeclaredMethods()).contains(method)) {
+                    callbackCreator.createBeanWithDependencies(context, descriptor);
                 }
                 return proxy.invokeSuper(obj, args);
             });
@@ -26,10 +32,24 @@ public class LazyBeanAwareBeanCreator extends DefaultBeanCreator {
             BeanDescriptor proxyDescriptor = BeanDescriptorFactory.createFromClass(proxy.getClass());
             context.getBeanDescriptors().add(proxyDescriptor);
             container.addBean(proxyDescriptor, proxy);
+            proxyDescriptor.setLoaded(true);
             return proxy;
-        } else {
-            return super.createBeanWithDependencies(context, descriptor);
         }
+        return null;
     }
 
+    @Override
+    public Object callback() {
+        return null;
+    }
+
+    @Override
+    public BeanCreator getCallback() {
+        return callbackCreator;
+    }
+
+    @Override
+    public void setCallback(BeanCreator callback) {
+        this.callbackCreator = callback;
+    }
 }

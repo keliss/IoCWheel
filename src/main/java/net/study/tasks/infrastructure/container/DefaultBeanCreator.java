@@ -15,15 +15,32 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DefaultBeanCreator implements BeanCreator {
+public class DefaultBeanCreator implements CustomizableBeanCreator {
 
     private ApplicationContext context;
+    private List<BeanCreator> customizers;
+
+    public DefaultBeanCreator() {
+        customizers = new ArrayList<>();
+    }
+
+    public DefaultBeanCreator(List<BeanCreator> customizers) {
+        this.customizers = customizers;
+    }
 
     @Override
     public Object createBeanWithDependencies(ApplicationContext context, BeanDescriptor descriptor) {
         this.context = context;
         BeanContainer container = context.getBeanContainer();
         Object createdBean;
+        createdBean = container.getBean(descriptor);
+        if (createdBean != null) {
+            return createdBean;
+        }
+        createdBean = customize(context, descriptor);
+        if (createdBean != null) {
+            return createdBean;
+        }
         List<Constructor> annotatedConstructors = new ArrayList<>(context.getInjectionPoints().get(descriptor).getConstructors());
         if (annotatedConstructors.size() > 1) {
             throw new IllegalStateException("Component cannot have more than one constructor annotated with @Inject");
@@ -52,6 +69,7 @@ public class DefaultBeanCreator implements BeanCreator {
         }
         setFields(descriptor);
         setFieldsThroughSetters(descriptor);
+        descriptor.setLoaded(true);
         return createdBean;
     }
 
@@ -111,5 +129,32 @@ public class DefaultBeanCreator implements BeanCreator {
         } else {
             return beans.get(0).getValue();
         }
+    }
+
+    @Override
+    public Object customize(ApplicationContext context, BeanDescriptor descriptor) {
+        Object customizedBean = null;
+        for (BeanCreator creator : customizers) {
+            customizedBean = creator.createBeanWithDependencies(context, descriptor);
+            if (customizedBean != null) {
+                break;
+            }
+        }
+        return customizedBean;
+    }
+
+    @Override
+    public List<BeanCreator> getCustomizers() {
+        return customizers;
+    }
+
+    @Override
+    public void setCustomizers(List<BeanCreator> customizers) {
+        this.customizers = customizers;
+    }
+
+    @Override
+    public void addCustomizer(BeanCreator customizer) {
+        customizers.add(customizer);
     }
 }
