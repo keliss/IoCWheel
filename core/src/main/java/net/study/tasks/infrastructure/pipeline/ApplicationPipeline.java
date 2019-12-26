@@ -17,7 +17,7 @@ public class ApplicationPipeline {
     private void createPipeline() {
         steps = new ArrayList<>();
         steps.add(new ComponentScanStep());
-        steps.add(new InjectionPointsScanStep());
+        steps.add(new InjectionPointScanStep());
         steps.add(new BeanCreationStep());
         steps.add(new RunnerExecutionStep());
     }

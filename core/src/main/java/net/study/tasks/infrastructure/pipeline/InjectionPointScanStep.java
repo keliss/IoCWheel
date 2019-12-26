@@ -8,15 +8,15 @@ import net.study.tasks.infrastructure.scanner.InjectAnnotationScanner;
 
 import java.util.Map;
 
-public class InjectionPointsScanStep implements PipelineStep {
+public class InjectionPointScanStep implements PipelineStep {
 
     private AnnotationScanner<Map<BeanDescriptor, InjectionPointsHolder>> annotationScanner;
 
-    public InjectionPointsScanStep(AnnotationScanner<Map<BeanDescriptor, InjectionPointsHolder>> annotationScanner) {
+    public InjectionPointScanStep(AnnotationScanner<Map<BeanDescriptor, InjectionPointsHolder>> annotationScanner) {
         this.annotationScanner = annotationScanner;
     }
 
-    public InjectionPointsScanStep() {
+    public InjectionPointScanStep() {
         this(new InjectAnnotationScanner());
     }
 
