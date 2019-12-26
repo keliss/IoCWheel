@@ -1,6 +1,5 @@
-package net.study.tasks.infrastructure.container;
+package net.study.tasks.infrastructure;
 
-import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
