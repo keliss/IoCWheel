@@ -5,13 +5,13 @@ import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 
 import java.util.List;
 
-public interface CustomizableBeanCreator extends BeanCreator {
+public interface CustomBeanCreator extends BeanCreator {
 
     Object createCustomBean(ApplicationContext context, BeanDescriptor descriptor);
 
-    List<BeanCreator> getCustomizers();
+    List<BeanCreator> getCustomBeanCreators();
 
-    void setCustomizers(List<BeanCreator> customizers);
+    void setCustomBeanCreators(List<BeanCreator> customizers);
 
-    void addCustomizer(BeanCreator customizer);
+    void addCustomBeanCreator(BeanCreator customizer);
 }

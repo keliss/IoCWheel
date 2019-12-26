@@ -16,17 +16,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DefaultBeanCreator implements CustomizableBeanCreator {
+public class DefaultBeanCreator implements CustomBeanCreator {
 
     private ApplicationContext context;
-    private List<BeanCreator> customizers;
+    private List<BeanCreator> customBeanCreators;
 
     public DefaultBeanCreator() {
-        customizers = new ArrayList<>();
+        customBeanCreators = new ArrayList<>();
     }
 
-    public DefaultBeanCreator(List<BeanCreator> customizers) {
-        this.customizers = customizers;
+    public DefaultBeanCreator(List<BeanCreator> customBeanCreators) {
+        this.customBeanCreators = customBeanCreators;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class DefaultBeanCreator implements CustomizableBeanCreator {
     @Override
     public Object createCustomBean(ApplicationContext context, BeanDescriptor descriptor) {
         Object customizedBean = null;
-        for (BeanCreator creator : customizers) {
+        for (BeanCreator creator : customBeanCreators) {
             customizedBean = creator.createBeanWithDependencies(context, descriptor);
             if (customizedBean != null) {
                 break;
@@ -145,17 +145,17 @@ public class DefaultBeanCreator implements CustomizableBeanCreator {
     }
 
     @Override
-    public List<BeanCreator> getCustomizers() {
-        return customizers;
+    public List<BeanCreator> getCustomBeanCreators() {
+        return customBeanCreators;
     }
 
     @Override
-    public void setCustomizers(List<BeanCreator> customizers) {
-        this.customizers = customizers;
+    public void setCustomBeanCreators(List<BeanCreator> customBeanCreators) {
+        this.customBeanCreators = customBeanCreators;
     }
 
     @Override
-    public void addCustomizer(BeanCreator customizer) {
-        customizers.add(customizer);
+    public void addCustomBeanCreator(BeanCreator customBeanCreator) {
+        customBeanCreators.add(customBeanCreator);
     }
 }

@@ -3,7 +3,7 @@ package net.study.tasks.infrastructure.pipeline;
 import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.factory.BeanCreator;
 import net.study.tasks.infrastructure.factory.BeanFactory;
-import net.study.tasks.infrastructure.factory.CustomizableBeanCreator;
+import net.study.tasks.infrastructure.factory.CustomBeanCreator;
 import net.study.tasks.infrastructure.factory.DefaultBeanCreator;
 import net.study.tasks.infrastructure.factory.LazyBeanAwareBeanCreator;
 
@@ -16,9 +16,9 @@ public class BeanCreationStep implements PipelineStep {
     }
 
     public BeanCreationStep() {
-        CustomizableBeanCreator defaultCreator = new DefaultBeanCreator();
+        CustomBeanCreator defaultCreator = new DefaultBeanCreator();
         BeanCreator lazyAwareCreator = new LazyBeanAwareBeanCreator(defaultCreator);
-        defaultCreator.addCustomizer(lazyAwareCreator);
+        defaultCreator.addCustomBeanCreator(lazyAwareCreator);
         this.beanFactory = new BeanFactory(defaultCreator);
     }
 
