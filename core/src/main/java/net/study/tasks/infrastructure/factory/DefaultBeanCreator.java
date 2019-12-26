@@ -124,7 +124,7 @@ public class DefaultBeanCreator implements CustomBeanCreator {
             }
             if (descriptorsForParameter.isEmpty()) {
                 throw new RuntimeException("Unmet dependency in class " + dependantClass.getName() +
-                        ". Couldn't find bean for parameter of type " + dependantClass.getName());
+                        ". Couldn't find bean for parameter of type " + dependencyClass.getName());
             }
             return createBeanWithDependencies(context, descriptorsForParameter.get(0));
         } else {
