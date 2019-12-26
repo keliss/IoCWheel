@@ -3,7 +3,7 @@ package net.study.tasks.infrastructure.scanner;
 import net.study.tasks.annotation.Inject;
 import net.study.tasks.infrastructure.ApplicationContext;
 import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
-import net.study.tasks.infrastructure.InjectionPointsHolder;
+import net.study.tasks.infrastructure.InjectionPointsWrapper;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescriptor, InjectionPointsHolder>> {
+public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescriptor, InjectionPointsWrapper>> {
 
     @Override
-    public Map<BeanDescriptor, InjectionPointsHolder> scan(ApplicationContext context) {
-        HashMap<BeanDescriptor, InjectionPointsHolder> map = new HashMap<>();
+    public Map<BeanDescriptor, InjectionPointsWrapper> scan(ApplicationContext context) {
+        HashMap<BeanDescriptor, InjectionPointsWrapper> map = new HashMap<>();
         context.getBeanDescriptors().forEach(d -> {
             Reflections reflections = new Reflections(
                     new ConfigurationBuilder()
@@ -32,7 +32,7 @@ public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescri
             Set<Constructor> constructors = reflections.getConstructorsAnnotatedWith(Inject.class);
             Set<Field> fields = reflections.getFieldsAnnotatedWith(Inject.class);
             Set<Method> methods = reflections.getMethodsAnnotatedWith(Inject.class);
-            map.put(d, new InjectionPointsHolder(constructors, fields, methods));
+            map.put(d, new InjectionPointsWrapper(constructors, fields, methods));
         });
         return map;
     }

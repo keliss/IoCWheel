@@ -10,7 +10,7 @@ public class ApplicationContext {
 
     private static Set<BeanDescriptor> beanDescriptors;
     private static Class<?> basePackageScanClass;
-    private static Map<BeanDescriptor, InjectionPointsHolder> injectionPoints;
+    private static Map<BeanDescriptor, InjectionPointsWrapper> injectionPoints;
 
     private ApplicationContext() {
         beanDescriptors = new HashSet<>();
@@ -44,11 +44,11 @@ public class ApplicationContext {
         ApplicationContext.beanDescriptors = beanDescriptors;
     }
 
-    public Map<BeanDescriptor, InjectionPointsHolder> getInjectionPoints() {
+    public Map<BeanDescriptor, InjectionPointsWrapper> getInjectionPoints() {
         return injectionPoints;
     }
 
-    public void setInjectionPoints(Map<BeanDescriptor, InjectionPointsHolder> injectionPoints) {
+    public void setInjectionPoints(Map<BeanDescriptor, InjectionPointsWrapper> injectionPoints) {
         ApplicationContext.injectionPoints = injectionPoints;
     }
 }

@@ -5,13 +5,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-public class InjectionPointsHolder {
+public class InjectionPointsWrapper {
 
     private Set<Constructor> constructors;
     private Set<Field> fields;
     private Set<Method> methods;
 
-    public InjectionPointsHolder(Set<Constructor> constructors, Set<Field> fields, Set<Method> methods) {
+    public InjectionPointsWrapper(Set<Constructor> constructors, Set<Field> fields, Set<Method> methods) {
         this.constructors = constructors;
         this.fields = fields;
         this.methods = methods;
