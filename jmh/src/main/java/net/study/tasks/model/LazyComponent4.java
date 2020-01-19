@@ -8,6 +8,9 @@ public class LazyComponent4 extends BaseComponent {
 
     private LazyComponent5 lazyComponent5;
 
+    public LazyComponent4() {
+    }
+
     @Inject
     public LazyComponent4(LazyComponent5 lazyComponent5) {
         this.lazyComponent5 = lazyComponent5;

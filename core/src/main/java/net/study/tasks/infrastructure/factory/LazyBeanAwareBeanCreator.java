@@ -24,8 +24,14 @@ public class LazyBeanAwareBeanCreator implements CalleeBeanCreator {
             Enhancer enhancer = new Enhancer();
             enhancer.setSuperclass(descriptor.getBeanClass());
             enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
-                if (!descriptor.isLoaded() && Arrays.asList(descriptor.getBeanClass().getDeclaredMethods()).contains(method)) {
+                if (!descriptor.isLoaded() && (Arrays.asList(descriptor.getBeanClass().getDeclaredMethods()).contains(method) ||
+                        (method.getDeclaringClass().isAssignableFrom(descriptor.getBeanClass()) &&
+                                Arrays.stream(descriptor.getBeanClass().getSuperclass().getDeclaredMethods())
+                                .anyMatch(m -> m.getName().equals(method.getName()) && Arrays.deepEquals(m.getParameterTypes(), method.getParameterTypes()))))) {
                     callback(context, descriptor);
+                }
+                if (descriptor.isLoaded()) {
+                    return proxy.invoke(container.getBean(descriptor), args);
                 }
                 return proxy.invokeSuper(obj, args);
             });

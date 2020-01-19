@@ -17,6 +17,6 @@ public class Component5 extends BaseComponent {
 
     @Override
     protected int doSomething(int a, int b) {
-        return lazyComponent2.doSomething(a, b) + lazyComponent3.doSomething(a, b);
+        return lazyComponent3.doSomething(a, b);
     }
 }

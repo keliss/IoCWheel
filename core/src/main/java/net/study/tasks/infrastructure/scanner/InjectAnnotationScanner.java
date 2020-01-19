@@ -26,7 +26,7 @@ public class InjectAnnotationScanner implements AnnotationScanner<Map<BeanDescri
             Reflections reflections = new Reflections(
                     new ConfigurationBuilder()
                             .setScanners(new MethodAnnotationsScanner(), new FieldAnnotationsScanner())
-                            .filterInputsBy(i -> i.contains(d.getBeanClass().getSimpleName()))
+                            .filterInputsBy(i -> i.startsWith(d.getBeanClass().getCanonicalName()))
                             .setUrls(ClasspathHelper.forClass(d.getBeanClass()))
             );
             Set<Constructor> constructors = reflections.getConstructorsAnnotatedWith(Inject.class);
