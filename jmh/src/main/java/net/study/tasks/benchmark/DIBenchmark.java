@@ -24,8 +24,9 @@ import org.openjdk.jmh.annotations.Warmup;
 
 import java.util.Random;
 
-@Warmup(iterations = 2)
-@Measurement(iterations = 2)
+@Warmup(iterations = 5)
+@Measurement(iterations = 3)
+@Fork(value = 1)
 public class DIBenchmark {
 
     @State(Scope.Thread)
@@ -41,7 +42,6 @@ public class DIBenchmark {
 
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(warmups = 1)
     public int testWithDependencyInjection(BenchState state) {
         ApplicationEntryPoint.launch(EntryPoint.class);
         return state.a;
