@@ -26,5 +26,6 @@
     <modules>
         <module>demo_app</module>
         <module>core</module>
+        <module>jmh</module>
     </modules>
 </project>
