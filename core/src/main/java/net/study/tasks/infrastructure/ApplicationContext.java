@@ -2,6 +2,7 @@ package net.study.tasks.infrastructure;
 
 import net.study.tasks.infrastructure.descriptor.BeanDescriptor;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class ApplicationContext {
 
     private ApplicationContext() {
         beanDescriptors = new HashSet<>();
+        injectionPoints = new HashMap<>();
     }
 
     private static class ContextHolder {
@@ -50,5 +52,11 @@ public class ApplicationContext {
 
     public void setInjectionPoints(Map<BeanDescriptor, InjectionPointsWrapper> injectionPoints) {
         ApplicationContext.injectionPoints = injectionPoints;
+    }
+
+    public void clearContext() {
+        beanDescriptors = new HashSet<>();
+        injectionPoints = new HashMap<>();
+        basePackageScanClass = null;
     }
 }

@@ -60,4 +60,8 @@ public class BeanContainer {
     private boolean isProxy(BeanDescriptor descriptor, Class<?> beanClass) {
         return descriptor.isProxy() && descriptor.getBeanClass().getName().startsWith(beanClass.getName());
     }
+
+    public void clearContainer() {
+        beans = new HashMap<>();
+    }
 }
